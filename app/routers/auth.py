@@ -42,3 +42,8 @@ def login(form: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get
         raise HTTPException(status_code=401, detail="Credenciales incorrectas")
     token = auth.crear_token({"sub": usuario.email})
     return {"access_token": token, "token_type": "bearer"}
+
+
+@router.get("/me", response_model=UsuarioResponse)
+def me(usuario=Depends(get_current_user)):
+    return usuario
